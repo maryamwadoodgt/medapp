@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1A84CA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>MedClear</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════════════════════════
+     AUTH SCREEN
+══════════════════════════════ -->
+<div id="s-auth" class="screen active auth-screen">
+  <div class="auth-hero">
+    <div class="auth-logo">💊</div>
+    <div class="auth-app-name">MedClear</div>
+    <div class="auth-tagline">Your medications, clearly organized</div>
+  </div>
+  <div class="auth-body">
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login">Sign In</div>
+      <div class="auth-tab" id="tab-register">Create Account</div>
+    </div>
+    <!-- Login -->
+    <form id="f-login" class="auth-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="l-email">Email address</label>
+        <input class="form-input" type="email" id="l-email" placeholder="your@email.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="l-pass">Password</label>
+        <input class="form-input" type="password" id="l-pass" placeholder="Your password" autocomplete="current-password" required>
+      </div>
+      <div id="l-err" class="form-error" style="display:none"></div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="l-btn">Sign In</button>
+    </form>
+    <!-- Register -->
+    <form id="f-register" class="auth-form" novalidate style="display:none">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="r-first">First name</label>
+          <input class="form-input" type="text" id="r-first" placeholder="Jane" autocomplete="given-name" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="r-last">Last name</label>
+          <input class="form-input" type="text" id="r-last" placeholder="Doe" autocomplete="family-name" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="r-dob">Date of birth</label>
+        <input class="form-input" type="date" id="r-dob" autocomplete="bday" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="r-email">Email address</label>
+        <input class="form-input" type="email" id="r-email" placeholder="your@email.com" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="r-pass">Password</label>
+        <input class="form-input" type="password" id="r-pass" placeholder="At least 8 characters" autocomplete="new-password" required minlength="8">
+        <span class="form-hint">At least 8 characters</span>
+      </div>
+      <div id="r-err" class="form-error" style="display:none"></div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="r-btn">Create Account</button>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ONBOARDING SCREEN
+══════════════════════════════ -->
+<div id="s-onboard" class="screen" style="background:#fff">
+  <div class="onboard-wrap">
+    <div style="font-size:.8rem;color:var(--gray-400);font-weight:600;margin-bottom:8px">Setting up your health profile</div>
+    <div class="progress-bar" id="ob-progress">
+      <div class="progress-seg done"></div>
+      <div class="progress-seg"></div>
+      <div class="progress-seg"></div>
+    </div>
+
+    <!-- Step 1: Lifestyle -->
+    <div class="ob-step active" id="ob-lifestyle">
+      <div class="ob-title">About your lifestyle</div>
+      <div class="ob-sub">Helps your care team understand your full health picture.</div>
+      <div class="form-group">
+        <label class="form-label">Smoking habit</label>
+        <div class="habit-group" id="smoke-group">
+          <button type="button" class="habit-btn active" data-val="never">Never</button>
+          <button type="button" class="habit-btn" data-val="former">Former</button>
+          <button type="button" class="habit-btn" data-val="current">Current</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Drinking habit</label>
+        <div class="habit-group" id="drink-group">
+          <button type="button" class="habit-btn active" data-val="never">Never</button>
+          <button type="button" class="habit-btn" data-val="former">Former</button>
+          <button type="button" class="habit-btn" data-val="current">Current</button>
+        </div>
+      </div>
+      <div style="margin-top:auto;padding-top:20px">
+        <button class="btn btn-primary btn-full btn-lg" id="ob-life-next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Allergies -->
+    <div class="ob-step" id="ob-allergies">
+      <div class="ob-title">Any allergies?</div>
+      <div class="ob-sub">Type to search or add your own. Press Enter to confirm.</div>
+      <div class="form-group">
+        <label class="form-label">Allergies</label>
+        <div class="tags-row" id="allergy-chips"></div>
+        <div class="tag-input-wrap">
+          <input class="form-input" type="text" id="allergy-input" placeholder="e.g. Peanuts, Penicillin…" autocomplete="off">
+          <ul class="suggestion-list" id="allergy-sug"></ul>
+        </div>
+        <span class="form-hint">Press Enter or comma to add · Tap × to remove</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:auto;padding-top:20px">
+        <button class="btn btn-ghost" id="ob-al-back" style="flex:1;border:1.5px solid var(--gray-200)">Back</button>
+        <button class="btn btn-primary" id="ob-al-next" style="flex:2">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Surgeries -->
+    <div class="ob-step" id="ob-surgeries">
+      <div class="ob-title">Past surgeries?</div>
+      <div class="ob-sub">Include any procedures or operations you've had.</div>
+      <div class="form-group">
+        <label class="form-label">Surgeries & procedures</label>
+        <div class="tags-row" id="surgery-chips"></div>
+        <div class="tag-input-wrap">
+          <input class="form-input" type="text" id="surgery-input" placeholder="e.g. Hip replacement…" autocomplete="off">
+          <ul class="suggestion-list" id="surgery-sug"></ul>
+        </div>
+        <span class="form-hint">Press Enter or comma to add · Tap × to remove</span>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:auto;padding-top:20px">
+        <button class="btn btn-ghost" id="ob-su-back" style="flex:1;border:1.5px solid var(--gray-200)">Back</button>
+        <button class="btn btn-primary btn-lg" id="ob-finish" style="flex:2">Finish Setup ✓</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     HOME SCREEN
+══════════════════════════════ -->
+<div id="s-home" class="screen">
+  <header class="app-header">
+    <button class="profile-pill" id="home-profile-btn" aria-label="Your profile">
+      <div class="profile-avatar" id="home-av">JD</div>
+      <span class="profile-name" id="home-name">Jane Doe</span>
+    </button>
+    <button class="btn btn-ghost" style="padding:8px;border-radius:50%" id="signout-btn" aria-label="Sign out">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+    </button>
+  </header>
+  <div class="page-body" id="home-list"></div>
+</div>
+
+<!-- ══════════════════════════════
+     ADD MEDICINE SCREEN
+══════════════════════════════ -->
+<div id="s-add" class="screen">
+  <div class="add-header">
+    <button class="back-btn" id="add-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Cancel
+    </button>
+    <div class="add-title">Add Medicine</div>
+    <div style="width:70px"></div>
+  </div>
+  <div class="page-body">
+    <form id="f-add" novalidate style="display:flex;flex-direction:column;gap:18px">
+      <div class="form-group">
+        <label class="form-label" for="m-name">Medicine name *</label>
+        <input class="form-input" type="text" id="m-name" placeholder="e.g. Lisinopril" required autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Medicine photo</label>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="m-photo" accept="image/*" aria-label="Upload photo">
+          <div class="upload-zone-row">
+            <div class="upload-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            </div>
+            <span id="upload-label" style="font-size:.9rem;color:var(--gray-500);font-weight:500">Image URL or upload</span>
+          </div>
+        </div>
+        <img id="m-photo-preview" class="upload-preview" alt="Medicine preview" style="display:none">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="m-dosage">Dosage *</label>
+          <input class="form-input" type="text" id="m-dosage" placeholder="e.g. 10mg" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="m-freq">Frequency *</label>
+          <select class="form-input form-select" id="m-freq" required>
+            <option value="" disabled selected>Select…</option>
+            <option>Once daily</option>
+            <option>Twice daily</option>
+            <option>Three times daily</option>
+            <option>Every morning</option>
+            <option>Every evening</option>
+            <option>Before bed</option>
+            <option>With meals</option>
+            <option>As needed</option>
+            <option>Weekly</option>
+          </select>
+        </div>
+      </div>
+      <!-- Start date — calendar widget -->
+      <div class="form-group">
+        <label class="form-label">Start date *</label>
+        <div class="cal-wrap">
+          <div class="cal-nav">
+            <button type="button" class="cal-nav-btn" id="cal-prev">‹</button>
+            <div class="cal-month" id="cal-month-label">April 2025</div>
+            <button type="button" class="cal-nav-btn" id="cal-next">›</button>
+          </div>
+          <div class="cal-grid" id="cal-header">
+            <div class="cal-dow">SUN</div><div class="cal-dow">MON</div><div class="cal-dow">TUE</div>
+            <div class="cal-dow">WED</div><div class="cal-dow">THU</div><div class="cal-dow">FRI</div><div class="cal-dow">SAT</div>
+          </div>
+          <div class="cal-grid" id="cal-days"></div>
+        </div>
+        <input type="hidden" id="m-start">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="m-prescriber">Who prescribed it? *</label>
+        <input class="form-input" type="text" id="m-prescriber" placeholder="e.g. Dr. Sarah Johnson" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="m-specialty">Specialty</label>
+        <select class="form-input form-select" id="m-specialty">
+          <option value="General">General</option>
+          <option value="Cardiology">Cardiology</option>
+          <option value="Neurology">Neurology</option>
+          <option value="Endocrinology">Endocrinology</option>
+          <option value="Pulmonology">Pulmonology</option>
+          <option value="Rheumatology">Rheumatology</option>
+          <option value="Gastro">Gastroenterology</option>
+          <option value="Allergy">Allergy / Immunology</option>
+          <option value="Oncology">Oncology</option>
+          <option value="Orthopedics">Orthopedics</option>
+          <option value="Urology">Urology</option>
+          <option value="Dermatology">Dermatology</option>
+          <option value="Psychiatry">Psychiatry</option>
+        </select>
+        <span class="form-hint">Leave blank to let AI suggest it</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="m-notes">Any notes?</label>
+        <textarea class="form-input" id="m-notes" rows="3" placeholder="e.g. Take with food. Do not skip a dose."></textarea>
+      </div>
+      <div id="add-err" class="form-error" style="display:none"></div>
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="save-btn">Save Medicine</button>
+      <button type="button" class="btn btn-outline btn-full" id="add-cancel-2">Cancel</button>
+      <div style="height:8px"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SUCCESS SCREEN
+══════════════════════════════ -->
+<div id="s-success" class="screen">
+  <div class="success-wrap">
+    <div class="success-circle">✅</div>
+    <div class="success-title">Medicine added!</div>
+    <div class="success-desc" id="success-msg">Your medicine has been saved to your list.</div>
+    <div style="height:12px"></div>
+    <button class="btn btn-primary btn-full btn-lg" id="success-home-btn">Back to My Medicines</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     MED DETAIL SCREEN
+══════════════════════════════ -->
+<div id="s-detail" class="screen">
+  <div class="add-header">
+    <button class="back-btn" id="detail-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <div class="add-title"></div>
+    <button class="btn btn-danger-ghost btn-sm" id="detail-delete">Remove</button>
+  </div>
+  <div class="page-body" style="padding-top:0" id="detail-body"></div>
+</div>
+
+<!-- ══════════════════════════════
+     VISIT SCREEN
+══════════════════════════════ -->
+<div id="s-visit" class="screen">
+  <div class="visit-banner">🏥 Visit Mode — Show this screen to your doctor</div>
+  <div class="visit-header">
+    <div class="visit-header-label">Current Medications</div>
+    <button class="visit-profile-btn" id="visit-profile-btn">
+      <div class="visit-avatar" id="v-av">JD</div>
+      <span class="visit-pname" id="v-name">Jane Doe</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="page-body" id="visit-list"></div>
+  <div class="return-bar">
+    <button class="btn btn-outline btn-full" id="visit-return-btn">
+      ← Return to Patient Mode
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     VISIT PROFILE SCREEN
+══════════════════════════════ -->
+<div id="s-vprofile" class="screen" style="background:var(--bg)">
+  <div class="vp-header">
+    <button class="vp-back" id="vp-back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <div class="vp-title">Patient Profile</div>
+    <div style="width:60px"></div>
+  </div>
+  <div class="page-body">
+    <div class="patient-card">
+      <div class="patient-avatar" id="vp-av">JD</div>
+      <div>
+        <div style="font-size:1.2rem;font-weight:700;color:var(--gray-900)" id="vp-name">Jane Doe</div>
+        <div style="font-size:.85rem;color:var(--gray-500)" id="vp-dob"></div>
+      </div>
+    </div>
+    <div id="vp-profile-content"></div>
+  </div>
+  <div class="return-bar">
+    <button class="btn btn-outline btn-full" id="vp-return-btn">← Return to Patient Mode</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     HISTORY SCREEN
+══════════════════════════════ -->
+<div id="s-history" class="screen" style="background:var(--bg)">
+  <header class="app-header">
+    <div style="font-size:1.1rem;font-weight:700;color:var(--gray-900)">Medical History</div>
+    <div style="font-size:.8rem;color:var(--gray-400);font-weight:600">Your health record</div>
+  </header>
+  <div class="page-body">
+    <!-- Patient card -->
+    <div class="patient-card" id="hist-patient-card">
+      <div class="patient-avatar" id="hist-av">JD</div>
+      <div>
+        <div style="font-size:1.15rem;font-weight:700;color:var(--gray-900)" id="hist-name">Jane Doe</div>
+        <div style="font-size:.83rem;color:var(--gray-500)" id="hist-dob"></div>
+        <div style="font-size:.8rem;color:var(--blue);font-weight:600;margin-top:2px" id="hist-email"></div>
+      </div>
+    </div>
+
+    <!-- Lifestyle -->
+    <div class="hist-section">
+      <div class="hist-section-head">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Lifestyle
+      </div>
+      <div class="hist-section-body" style="display:flex;flex-direction:column;gap:16px">
+        <div class="form-group">
+          <label class="form-label">Smoking Habit</label>
+          <div class="habit-group" id="h-smoke-group">
+            <button type="button" class="habit-btn" data-val="never">Never</button>
+            <button type="button" class="habit-btn" data-val="former">Former</button>
+            <button type="button" class="habit-btn" data-val="current">Current</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Drinking Habit</label>
+          <div class="habit-group" id="h-drink-group">
+            <button type="button" class="habit-btn" data-val="never">Never</button>
+            <button type="button" class="habit-btn" data-val="former">Former</button>
+            <button type="button" class="habit-btn" data-val="current">Current</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Allergies (editable) -->
+    <div class="hist-section">
+      <div class="hist-section-head">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Allergies
+      </div>
+      <div class="hist-section-body">
+        <div class="add-tag-row">
+          <div style="position:relative;flex:1">
+            <input class="form-input" type="text" id="h-allergy-input" placeholder="Add allergy…" autocomplete="off">
+            <ul class="suggestion-list" id="h-allergy-sug"></ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="h-allergy-add">Add</button>
+        </div>
+        <div id="h-allergy-chips" style="display:flex;flex-wrap:wrap;gap:7px"></div>
+      </div>
+    </div>
+
+    <!-- Surgeries (editable) -->
+    <div class="hist-section">
+      <div class="hist-section-head">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Surgeries & Procedures
+      </div>
+      <div class="hist-section-body">
+        <div class="add-tag-row">
+          <div style="position:relative;flex:1">
+            <input class="form-input" type="text" id="h-surgery-input" placeholder="Add surgery…" autocomplete="off">
+            <ul class="suggestion-list" id="h-surgery-sug"></ul>
+          </div>
+          <button type="button" class="btn btn-primary btn-sm" id="h-surgery-add">Add</button>
+        </div>
+        <div id="h-surgery-chips" style="display:flex;flex-wrap:wrap;gap:7px"></div>
+      </div>
+    </div>
+
+    <!-- Medication Timeline -->
+    <div class="hist-section">
+      <div class="hist-section-head">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Medication Timeline
+      </div>
+      <div class="hist-section-body">
+        <div id="hist-timeline"></div>
+      </div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     BOTTOM NAV
+══════════════════════════════ -->
+<nav class="bottom-nav" id="bottom-nav" style="display:none" aria-label="Main navigation">
+  <button class="nav-item active" id="nav-home" aria-label="Home">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+    </div>
+    <span class="nav-label">Home</span>
+  </button>
+  <button class="nav-item nav-add" id="nav-add" aria-label="Add medicine">
+    <div class="nav-add-circle">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </div>
+    <span class="nav-label">Add</span>
+  </button>
+  <button class="nav-item" id="nav-visit" aria-label="Visit mode">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
+    <span class="nav-label">Visit</span>
+  </button>
+  <button class="nav-item" id="nav-history" aria-label="Medical history">
+    <div class="nav-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+    <span class="nav-label">History</span>
+  </button>
+</nav>
+
+</div><!-- /#app -->
+
+<!-- Loading -->
+<div id="loading-overlay">
+  <div style="font-size:2.2rem">💊</div>
+  <div style="font-family:var(--font);font-size:1.15rem;font-weight:700;color:var(--gray-900)">MedClear</div>
+  <div class="spinner"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// MedClear — App Logic
+// ════════════════════════════════════════════════════════════
+
+// ── Pill image (base64 placeholder matching Figma style) ───
+const PILL_IMG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%23F1F5F9'/%3E%3Cellipse cx='40' cy='40' rx='22' ry='13' transform='rotate(-35 40 40)' fill='%23E05252' rx='22'/%3E%3Cellipse cx='29' cy='47' rx='22' ry='13' transform='rotate(-35 29 47)' fill='%23F8A84B' /%3E%3Cellipse cx='40' cy='40' rx='22' ry='13' transform='rotate(-35 40 40)' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E`;
+
+// ── Mock state ─────────────────────────────────────────────
+let user = null, meds = [], selMed = null;
+
+const MOCK_USER = {
+  uid:'demo-1', email:'jane@example.com',
+  firstName:'Jane', lastName:'Doe', dateOfBirth:'1952-03-14',
+  profile:{ smoking:'never', drinking:'former', allergies:['Peanuts','Penicillin'], surgeries:['Hip replacement (2019)'] }
+};
+const MOCK_MEDS = [
+  { id:'1', name:'Atorvastatin', dosage:'20mg', freq:'Once daily', start:'2023-01-10',
+    prescriber:'Dr. Maria Chen', specialty:'Cardiology', notes:'Take at night.',
+    expl:'Lowers your cholesterol to help protect your heart.', img:'' },
+  { id:'2', name:'Lisinopril', dosage:'10mg', freq:'Once daily', start:'2023-06-01',
+    prescriber:'Dr. Maria Chen', specialty:'Cardiology', notes:'',
+    expl:'Helps lower your blood pressure and reduces strain on your heart.', img:'' },
+  { id:'3', name:'Metformin', dosage:'500mg', freq:'Twice daily', start:'2022-09-15',
+    prescriber:'Dr. James Park', specialty:'Endocrinology', notes:'Take with meals.',
+    expl:'Controls blood sugar levels for type 2 diabetes.', img:'' },
+  { id:'4', name:'Cetirizine', dosage:'10mg', freq:'Once daily', start:'2024-03-01',
+    prescriber:'Dr. Aisha Patel', specialty:'Allergy', notes:'Take as needed for hay fever.',
+    expl:'Relieves allergy symptoms like sneezing and itchy eyes.', img:'' },
+];
+
+// ── Specialty colors (matching Figma) ──────────────────────
+const SPEC_COLORS = {
+  Cardiology:'#E05252', Neurology:'#7C4DCC', Endocrinology:'#E09A1A',
+  Pulmonology:'#1A84CA', Rheumatology:'#D14F8F', Gastro:'#27A85C',
+  Allergy:'#E09A1A', General:'#64748B', Oncology:'#C0392B',
+  Orthopedics:'#16A085', Urology:'#2980B9', Dermatology:'#8E44AD',
+  Psychiatry:'#27AE60',
+};
+function specColor(s){ return SPEC_COLORS[s] || '#64748B'; }
+
+const ALLERGY_SUGS = ['Peanuts','Tree nuts','Shellfish','Milk','Eggs','Wheat / Gluten','Soy',
+  'Penicillin','Aspirin','Ibuprofen','Sulfa drugs','Latex','Bee stings','Pollen','Pet dander','Mold'];
+const SURGERY_SUGS = ['Appendectomy','Gallbladder removal','Hip replacement','Knee replacement',
+  'Heart bypass','Cataract surgery','Hernia repair','Hysterectomy','Spinal fusion','Tonsillectomy',
+  'C-section','Back surgery','Shoulder surgery','Carpal tunnel release','Thyroid removal'];
+
+// ── Helpers ───────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const cap = s => s ? s.charAt(0).toUpperCase()+s.slice(1) : '';
+function fmtDate(d){
+  if(!d) return '—';
+  const dt = new Date(d+'T00:00:00');
+  return dt.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+}
+function fmtDateShort(d){
+  if(!d) return '—';
+  return new Date(d+'T00:00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'numeric'});
+}
+function ini(u){ return ((u.firstName||'')[0]+(u.lastName||'')[0]).toUpperCase(); }
+function fullName(u){ return `${u.firstName} ${u.lastName}`; }
+function genId(){ return 'm'+Date.now()+Math.random().toString(36).slice(2,6); }
+
+function showToast(msg){
+  $('toast')?.remove();
+  const t=document.createElement('div');
+  t.id='toast'; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .3s'; setTimeout(()=>t.remove(),300); },2800);
+}
+
+// ── Navigate ──────────────────────────────────────────────
+const ALL_SCREENS = ['auth','onboard','home','add','success','detail','visit','vprofile','history'];
+function go(id){
+  ALL_SCREENS.forEach(s=>{ const el=$('s-'+s); if(el){ el.classList.remove('active'); } });
+  const el=$('s-'+id); if(el) el.classList.add('active');
+  // Nav bar
+  const hideNav = ['auth','onboard','success'].includes(id);
+  $('bottom-nav').style.display = hideNav ? 'none' : 'flex';
+  // Active nav
+  ['home','add','visit','history'].forEach(n=>{
+    $('nav-'+n)?.classList.toggle('active', n===id);
+  });
+  // Scroll top
+  el?.querySelector('.page-body')?.scrollTo(0,0);
+}
+
+// ── Auth tabs ──────────────────────────────────────────────
+$('tab-login').onclick    = ()=>setTab('login');
+$('tab-register').onclick = ()=>setTab('register');
+function setTab(t){
+  $('tab-login').classList.toggle('active',t==='login');
+  $('tab-register').classList.toggle('active',t==='register');
+  $('f-login').style.display    = t==='login'  ? 'flex':'none';
+  $('f-register').style.display = t==='register'? 'flex':'none';
+}
+
+// ── Login ──────────────────────────────────────────────────
+$('f-login').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn=$('l-btn'), errEl=$('l-err');
+  errEl.style.display='none';
+  btn.textContent='Signing in…'; btn.disabled=true;
+  await delay(700);
+  // TODO: Replace with Firebase loginUser()
+  user = MOCK_USER; meds=[...MOCK_MEDS];
+  afterLogin(false);
+  btn.textContent='Sign In'; btn.disabled=false;
+});
+
+// ── Register ───────────────────────────────────────────────
+$('f-register').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const btn=$('r-btn'), errEl=$('r-err');
+  errEl.style.display='none';
+  const first=$('r-first').value.trim(), last=$('r-last').value.trim();
+  const dob=$('r-dob').value, email=$('r-email').value.trim(), pass=$('r-pass').value;
+  if(!first||!last||!dob||!email||!pass){ errEl.textContent='Please fill in all fields.'; errEl.style.display='block'; return; }
+  btn.textContent='Creating…'; btn.disabled=true;
+  await delay(700);
+  // TODO: Replace with Firebase registerUser()
+  user = { uid:'new-'+Date.now(), email, firstName:first, lastName:last, dateOfBirth:dob,
+    profile:{ smoking:'never', drinking:'never', allergies:[], surgeries:[] } };
+  meds=[];
+  afterLogin(true);
+  btn.textContent='Create Account'; btn.disabled=false;
+});
+
+function afterLogin(isNew){
+  updateProfileUI();
+  if(isNew){ go('onboard'); obSetStep(0); }
+  else{ go('home'); renderHome(); }
+}
+
+$('signout-btn').onclick = ()=>{ user=null; meds=[]; go('auth'); };
+
+// ── Update profile everywhere ──────────────────────────────
+function updateProfileUI(){
+  if(!user) return;
+  const i=ini(user), n=fullName(user);
+  ['home-av','v-av','vp-av','hist-av'].forEach(id=>{ const el=$(id); if(el) el.textContent=i; });
+  ['home-name','v-name','vp-name','hist-name'].forEach(id=>{ const el=$(id); if(el) el.textContent=n; });
+  const vpDob=$('vp-dob'); if(vpDob) vpDob.textContent='Date of birth: '+fmtDate(user.dateOfBirth);
+  const hDob=$('hist-dob'); if(hDob) hDob.textContent='Date of birth: '+fmtDate(user.dateOfBirth);
+  const hEmail=$('hist-email'); if(hEmail) hEmail.textContent=user.email;
+}
+
+// ── Onboarding ─────────────────────────────────────────────
+let obStep=0;
+const OB_STEPS=['lifestyle','allergies','surgeries'];
+function obSetStep(n){
+  obStep=n;
+  OB_STEPS.forEach((s,i)=>{ $('ob-'+s)?.classList.toggle('active',i===n); });
+  $('ob-progress').querySelectorAll('.progress-seg').forEach((el,i)=>{ el.classList.toggle('done',i<=n); });
+}
+$('ob-life-next').onclick = ()=>obSetStep(1);
+$('ob-al-back').onclick   = ()=>obSetStep(0);
+$('ob-al-next').onclick   = ()=>obSetStep(2);
+$('ob-su-back').onclick   = ()=>obSetStep(1);
+$('ob-finish').onclick    = async ()=>{
+  const smoking = $('smoke-group').querySelector('.active')?.dataset.val || 'never';
+  const drinking= $('drink-group').querySelector('.active')?.dataset.val || 'never';
+  if(user){
+    user.profile.smoking  = smoking;
+    user.profile.drinking = drinking;
+    user.profile.allergies= obAlTags.get();
+    user.profile.surgeries= obSuTags.get();
+    // TODO: await updateMedicalProfile(user.uid, user.profile)
+  }
+  go('home'); renderHome(); renderHistory();
+};
+
+// Habit buttons
+function habitGroup(groupId){
+  const g=$(groupId);
+  g.querySelectorAll('.habit-btn').forEach(btn=>{
+    btn.onclick=()=>{ g.querySelectorAll('.habit-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); };
+  });
+}
+habitGroup('smoke-group');
+habitGroup('drink-group');
+
+// ── Tag input system ──────────────────────────────────────
+function makeTagInput(inputId, sugListId, chipsContainerId, sugs, chipClass='chip-red'){
+  const inp=$(inputId), sugEl=$(sugListId), chipsEl=$(chipsContainerId);
+  const tags=[];
+
+  function renderChips(){
+    if(chipsEl){ chipsEl.innerHTML=''; }
+    // also render inline if container is inline (onboarding uses .tags-row)
+    const inlineContainer = inp?.previousElementSibling?.classList?.contains('tags-row') ? inp.previousElementSibling : null;
+    if(inlineContainer) inlineContainer.innerHTML='';
+
+    const target = chipsEl || inlineContainer;
+    if(!target) return;
+    tags.forEach(tag=>{
+      const c=document.createElement('span');
+      c.className='chip '+chipClass;
+      c.innerHTML=`${esc(tag)}<span class="chip-remove" data-tag="${esc(tag)}">×</span>`;
+      c.querySelector('.chip-remove').onclick=()=>{ tags.splice(tags.indexOf(tag),1); renderChips(); };
+      target.appendChild(c);
+    });
+  }
+
+  function showSug(q){
+    if(!sugEl) return;
+    sugEl.innerHTML='';
+    if(!q){ sugEl.classList.remove('open'); return; }
+    const m=sugs.filter(s=>s.toLowerCase().includes(q.toLowerCase())&&!tags.includes(s)).slice(0,6);
+    if(!m.length){ sugEl.classList.remove('open'); return; }
+    m.forEach(s=>{ const li=document.createElement('li'); li.className='sug-item'; li.textContent=s;
+      li.onclick=()=>{ addTag(s); inp.value=''; sugEl.classList.remove('open'); inp.focus(); };
+      sugEl.appendChild(li); });
+    sugEl.classList.add('open');
+  }
+
+  function addTag(v){ const t=v.trim(); if(!t||tags.includes(t)) return; tags.push(t); renderChips(); }
+
+  inp?.addEventListener('input',()=>showSug(inp.value));
+  inp?.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===','){ e.preventDefault(); addTag(inp.value); inp.value=''; sugEl?.classList.remove('open'); }
+    if(e.key==='Backspace'&&!inp.value&&tags.length){ tags.pop(); renderChips(); }
+  });
+  document.addEventListener('click',e=>{ if(!sugEl?.contains(e.target)&&e.target!==inp) sugEl?.classList.remove('open'); });
+
+  return {
+    get:()=>[...tags],
+    set:(arr)=>{ tags.length=0; arr.forEach(a=>tags.push(a)); renderChips(); }
+  };
+}
+
+// Onboarding tag inputs
+const obAlTags = makeTagInput('allergy-input','allergy-sug', null, ALLERGY_SUGS,'chip-red');
+// Make allergy chips render into the .tags-row above the input
+const _alInp=$('allergy-input');
+if(_alInp){
+  const _alOrig = obAlTags;
+  // Override render to use the .tags-row div (sibling above input's parent)
+}
+const obSuTags = makeTagInput('surgery-input','surgery-sug', null, SURGERY_SUGS,'chip-amber');
+
+// History tag inputs
+const hAlTags  = makeTagInput('h-allergy-input','h-allergy-sug','h-allergy-chips', ALLERGY_SUGS,'chip-red');
+const hSuTags  = makeTagInput('h-surgery-input','h-surgery-sug','h-surgery-chips', SURGERY_SUGS,'chip-amber');
+
+$('h-allergy-add').onclick=()=>{ const v=$('h-allergy-input').value; if(v){ hAlTags.set([...hAlTags.get(),v]); $('h-allergy-input').value=''; if(user) user.profile.allergies=hAlTags.get(); } };
+$('h-surgery-add').onclick=()=>{ const v=$('h-surgery-input').value; if(v){ hSuTags.set([...hSuTags.get(),v]); $('h-surgery-input').value=''; if(user) user.profile.surgeries=hSuTags.get(); } };
+
+// ── Render home ───────────────────────────────────────────
+function renderHome(){
+  const cont=$('home-list');
+  cont.innerHTML='';
+  if(!meds.length){
+    cont.innerHTML=`
+      <div class="empty-state">
+        <div class="empty-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
+        <div class="empty-title">No medications added</div>
+        <div class="empty-desc">Add your first medicine to keep everything in one clear place.</div>
+        <button class="btn btn-primary btn-lg" onclick="go('add');initCalendar()">Add My First Medicine</button>
+      </div>`;
+    return;
+  }
+  const title=document.createElement('div');
+  title.className='meds-title'; title.textContent='My Medications';
+  cont.appendChild(title);
+  renderMedGroups(cont, meds);
+}
+
+function renderMedGroups(container, medList){
+  const groups={};
+  medList.forEach(m=>{ const k=m.specialty||'General'; if(!groups[k]) groups[k]=[]; groups[k].push(m); });
+  Object.entries(groups).forEach(([spec, ms])=>{
+    const color=specColor(spec);
+    const sec=document.createElement('div'); sec.className='specialty-section';
+    sec.innerHTML=`<div class="specialty-header" style="border-bottom-color:${color}20">
+      <span class="specialty-label" style="color:${color}">${esc(spec)}</span>
+    </div><div class="specialty-cards"></div>`;
+    const cards=sec.querySelector('.specialty-cards');
+    ms.forEach(m=> cards.appendChild(buildCard(m)));
+    container.appendChild(sec);
+  });
+}
+
+function buildCard(m){
+  const color=specColor(m.specialty);
+  const d=document.createElement('div'); d.className='med-card';
+  d.innerHTML=`
+    <div class="med-card-left-bar" style="background:${color}"></div>
+    <div class="med-card-img-ph">
+      ${m.img ? `<img src="${esc(m.img)}" style="width:52px;height:52px;object-fit:contain" alt="${esc(m.name)}">` : `<img src="${PILL_IMG}" style="width:52px;height:52px" alt="pill">`}
+    </div>
+    <div class="med-card-body">
+      <div class="med-card-name">${esc(m.name)}</div>
+      <div class="med-card-meta">${esc(m.dosage)} | ${esc(m.freq)}</div>
+      <div class="med-card-desc">${esc(m.expl)}</div>
+    </div>
+    <div class="med-card-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></div>`;
+  d.onclick=()=>openDetail(m);
+  return d;
+}
+
+// ── Med detail ────────────────────────────────────────────
+function openDetail(m){
+  selMed=m;
+  const color=specColor(m.specialty);
+  const body=$('detail-body');
+  body.innerHTML=`
+    <div class="detail-accent" style="background:${color}"></div>
+    ${m.img ? `<img src="${esc(m.img)}" class="detail-img" alt="${esc(m.name)}">` : `<div class="detail-img-ph">💊</div>`}
+    <div class="detail-body">
+      <div class="detail-name">${esc(m.name)}</div>
+      <div class="detail-badges">
+        <span class="detail-badge" style="background:${color}18;color:${color}">${esc(m.dosage)}</span>
+        <span class="detail-badge">${esc(m.freq)}</span>
+      </div>
+      <div class="explanation-box">${esc(m.expl)}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="info-row"><div class="info-label">Started</div><div class="info-value">${fmtDate(m.start)}</div></div>
+        <div class="info-row"><div class="info-label">Specialty</div><div class="info-value">${esc(m.specialty)}</div></div>
+      </div>
+      <div class="info-row"><div class="info-label">Prescribed by</div><div class="info-value">${esc(m.prescriber)||'—'}</div></div>
+      ${m.notes?`<div class="info-row"><div class="info-label">Notes</div><div class="notes-box">${esc(m.notes)}</div></div>`:''}
+    </div>`;
+  go('detail');
+}
+
+$('detail-back').onclick=()=>go('home');
+$('detail-delete').onclick=()=>{
+  if(!selMed||!confirm(`Remove ${selMed.name}?`)) return;
+  meds=meds.filter(m=>m.id!==selMed.id);
+  selMed=null; showToast('Medication removed.'); go('home'); renderHome();
+};
+
+// ── Calendar ──────────────────────────────────────────────
+let calYear, calMonth, calSelected;
+function initCalendar(){
+  const today=new Date();
+  calYear=today.getFullYear(); calMonth=today.getMonth();
+  calSelected=today.toISOString().split('T')[0];
+  $('m-start').value=calSelected;
+  renderCal();
+}
+function renderCal(){
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  $('cal-month-label').textContent=`${MONTHS[calMonth]} ${calYear}`;
+  const grid=$('cal-days'); grid.innerHTML='';
+  const first=new Date(calYear,calMonth,1).getDay();
+  const days=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date().toISOString().split('T')[0];
+  for(let i=0;i<first;i++){ const d=document.createElement('div'); d.className='cal-day cal-empty'; grid.appendChild(d); }
+  for(let d=1;d<=days;d++){
+    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const el=document.createElement('div'); el.className='cal-day'; el.textContent=d;
+    if(ds===today) el.classList.add('today');
+    if(ds===calSelected) el.classList.add('selected');
+    el.onclick=()=>{ calSelected=ds; $('m-start').value=ds; renderCal(); };
+    grid.appendChild(el);
+  }
+}
+$('cal-prev').onclick=()=>{ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCal(); };
+$('cal-next').onclick=()=>{ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCal(); };
+
+// ── Photo upload ──────────────────────────────────────────
+$('m-photo').addEventListener('change',e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const prev=$('m-photo-preview'), lbl=$('upload-label');
+  const r=new FileReader();
+  r.onload=ev=>{ prev.src=ev.target.result; prev.style.display='block'; lbl.textContent=file.name; };
+  r.readAsDataURL(file);
+});
+
+// ── Add medicine ──────────────────────────────────────────
+$('add-back').onclick=$('add-cancel-2').onclick=()=>go('home');
+
+$('f-add').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const errEl=$('add-err'); errEl.style.display='none';
+  const name=$('m-name').value.trim();
+  const dosage=$('m-dosage').value.trim();
+  const freq=$('m-freq').value;
+  const start=$('m-start').value;
+  const prescriber=$('m-prescriber').value.trim();
+  const specialty=$('m-specialty').value;
+  const notes=$('m-notes').value.trim();
+  const prev=$('m-photo-preview');
+  const img=prev.style.display!=='none'?prev.src:'';
+
+  if(!name||!dosage||!freq||!start||!prescriber){
+    errEl.textContent='Please fill in all required fields (*).'; errEl.style.display='block'; return;
+  }
+  const btn=$('save-btn');
+  btn.textContent='Saving…'; btn.disabled=true;
+  await delay(600);
+
+  const newMed={ id:genId(), name, dosage, freq, start, prescriber, specialty, notes, img,
+    expl:`${name} is prescribed by your doctor to help manage your health condition as directed.` };
+  meds.unshift(newMed);
+  // TODO: await addMedication(newMed)
+
+  $('success-msg').textContent=`${name} has been added to your medications.`;
+  $('f-add').reset(); prev.style.display='none'; $('upload-label').textContent='Image URL or upload';
+  btn.textContent='Save Medicine'; btn.disabled=false;
+  renderHome(); go('success');
+});
+
+$('success-home-btn').onclick=()=>go('home');
+
+// ── Visit mode ────────────────────────────────────────────
+$('nav-visit').onclick=()=>{
+  const cont=$('visit-list');
+  cont.innerHTML='';
+  if(!meds.length){
+    cont.innerHTML=`<div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="empty-title">No medications added</div></div>`;
+  } else {
+    const title=document.createElement('div'); title.className='meds-title'; title.textContent='My Medications';
+    cont.appendChild(title);
+    renderMedGroups(cont, meds);
+  }
+  go('visit');
+};
+
+$('visit-profile-btn').onclick=()=>{
+  if(user){
+    renderProfileSections($('vp-profile-content'), user.profile);
+    $('vp-dob').textContent='Date of birth: '+fmtDate(user.dateOfBirth);
+    document.querySelectorAll('#s-vprofile .profile-avatar, #s-vprofile .visit-avatar').forEach(el=>el.textContent=ini(user));
+  }
+  go('vprofile');
+};
+$('vp-back-btn').onclick=()=>go('visit');
+$('visit-return-btn').onclick=$('vp-return-btn').onclick=()=>go('home');
+
+// ── History ───────────────────────────────────────────────
+$('nav-history').onclick=()=>{ renderHistory(); go('history'); };
+
+function renderHistory(){
+  if(!user) return;
+  // Sync lifestyle buttons
+  syncHabitGroup('h-smoke-group', user.profile.smoking);
+  syncHabitGroup('h-drink-group', user.profile.drinking);
+  // Habit button save
+  ['h-smoke-group','h-drink-group'].forEach(gid=>{
+    $(gid).querySelectorAll('.habit-btn').forEach(btn=>{
+      btn.onclick=()=>{
+        $(gid).querySelectorAll('.habit-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        if(gid==='h-smoke-group') user.profile.smoking=btn.dataset.val;
+        else user.profile.drinking=btn.dataset.val;
+      };
+    });
+  });
+  hAlTags.set([...user.profile.allergies]);
+  hSuTags.set([...user.profile.surgeries]);
+  renderTimeline();
+}
+
+function syncHabitGroup(gid, val){
+  const g=$(gid); if(!g) return;
+  g.querySelectorAll('.habit-btn').forEach(b=>{ b.classList.toggle('active', b.dataset.val===val); });
+}
+
+function renderTimeline(){
+  const el=$('hist-timeline'); if(!el) return;
+  const sorted=[...meds].sort((a,b)=>new Date(a.start)-new Date(b.start));
+  if(!sorted.length){ el.innerHTML='<span style="color:var(--gray-400);font-size:.9rem">No medications to display.</span>'; return; }
+  el.innerHTML=`<div class="timeline">${sorted.map(m=>`
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-pill-icon"><img src="${PILL_IMG}" alt="pill"></div>
+      <div class="tl-info">
+        <div class="tl-name">${esc(m.name)}</div>
+        <div class="tl-dose">${esc(m.dosage)} • ${esc(m.freq)}</div>
+        <div class="tl-date-chip">${fmtDateShort(m.start)}</div>
+      </div>
+    </div>`).join('')}</div>`;
+}
+
+function renderProfileSections(container, profile){
+  if(!container) return;
+  container.innerHTML=`
+    <div class="hist-section">
+      <div class="hist-section-head">♥ Lifestyle</div>
+      <div class="hist-section-body" style="display:flex;flex-direction:column;gap:12px">
+        <div class="info-row"><div class="info-label">Smoking Habit</div><div class="info-value" style="font-size:1rem">${cap(profile.smoking)}</div></div>
+        <div class="divider"></div>
+        <div class="info-row"><div class="info-label">Drinking Habit</div><div class="info-value" style="font-size:1rem">${cap(profile.drinking)}</div></div>
+      </div>
+    </div>
+    <div class="hist-section">
+      <div class="hist-section-head">⚠️ Allergies</div>
+      <div class="hist-section-body">
+        ${profile.allergies.length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${profile.allergies.map(a=>`<span class="chip chip-red">${esc(a)}</span>`).join('')}</div>`
+          : '<span style="color:var(--gray-400);font-size:.9rem">No known allergies recorded.</span>'}
+      </div>
+    </div>
+    <div class="hist-section">
+      <div class="hist-section-head">🏥 Surgeries & Procedures</div>
+      <div class="hist-section-body">
+        ${profile.surgeries.length
+          ? `<div style="display:flex;flex-wrap:wrap;gap:7px">${profile.surgeries.map(s=>`<span class="chip chip-amber">${esc(s)}</span>`).join('')}</div>`
+          : '<span style="color:var(--gray-400);font-size:.9rem">No surgeries recorded.</span>'}
+      </div>
+    </div>`;
+}
+
+// ── Nav wiring ────────────────────────────────────────────
+$('nav-home').onclick=()=>{ renderHome(); go('home'); };
+$('nav-add').onclick=()=>{ initCalendar(); go('add'); };
+
+// ── Init ──────────────────────────────────────────────────
+function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+setTimeout(()=>{
+  const ov=$('loading-overlay');
+  ov.style.opacity='0'; ov.style.transition='opacity .3s';
+  setTimeout(()=>ov.remove(),300);
+},700);
+</script>
+</body>
+</html>
