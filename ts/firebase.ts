@@ -10,6 +10,8 @@
 // ============================================================
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+// Import the functions you need from the SDKs you need
+// import { initializeApp } from "firebase/app";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -42,17 +44,17 @@ import {
 
 import type { User, Medication, MedicalProfile } from './types.js';
 
-// ── 🔧 REPLACE THIS WITH YOUR FIREBASE CONFIG ─────────────
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey:            "YOUR_API_KEY",
-  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId:         "YOUR_PROJECT_ID",
-  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId:             "YOUR_APP_ID",
+  apiKey: "AIzaSyBFG-NXmvFjDulDJ5TWOXXjM5SQvh4oVW8",
+  authDomain: "medapp-35f15.firebaseapp.com",
+  projectId: "medapp-35f15",
+  storageBucket: "medapp-35f15.firebasestorage.app",
+  messagingSenderId: "115555381991",
+  appId: "1:115555381991:web:055113b00839879d926842"
 };
-// ──────────────────────────────────────────────────────────
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db   = getFirestore(app);
